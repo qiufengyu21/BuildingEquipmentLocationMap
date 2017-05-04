@@ -1,0 +1,1 @@
+[{"lat":-50,"lng":150,"icon":"computer","alt":"565"},{"lat":-50.25,"lng":214.75,"icon":"computer","alt":"58793416"},{"lat":-50,"lng":120,"icon":"router","alt":"21"},{"lat":-50,"lng":120,"icon":"router","alt":"G600Y"},{"lat":-50,"lng":80,"icon":"switch","alt":"3"},{"lat":-50,"lng":120,"icon":"router","alt":"4"}]

@@ -1,0 +1,14 @@
+Switch,10.52.30.1,255.255.255.0,SBx3112,v2,1,online,6.18.0.1-00,NMS_C4,Cams Switch
+Router,10.52.30.2,255.255.255.0,SBx3106,v2,2,online,17.1.0-00,NMS_C4,Bob Router
+Computer,10.52.30.3,255.255.255.0,AT-AR745,v2,58793416,online,2.9.2-13,NMS_C4,Phil PC
+Router,10.52.30.4,255.255.255.0,AR415S,v2,G1AS8600Y,online,2.9.1-23,NMS_B5,Test Router
+Switch,10.52.10.5,255.255.255.0,SBx3112,v2,3,online,6.18.0.1-00,NMS_C4,Sam Switch
+Router,10.52.20.6,255.255.255.0,SBx3106,v2,4,online,17.1.0-00,NMS_C4,Teds Router
+Computer,10.53.7.7,255.255.255.0,AT-AR745,v2,565,online,2.9.2-13,NMS_C4,John PC
+Router,10.52.40.8,255.255.255.0,AR415S,v2,G600Y,online,2.9.1-23,NMS_B5,Jack Router 
+Switch,10.52.50.9,255.255.255.0,SBx3112,v2,31,online,6.18.0.1-00,NMS_C4,Jacobs Switch
+Router,10.52.20.10,255.255.255.0,SBx3106,v2,21,online,17.1.0-00,NMS_C4,Tom Router
+Computer,10.52.31.11,255.255.255.0,AT-AR745,v2,56,online,2.9.2-13,NMS_C4,Pats PC
+Router,10.52.30.12,255.255.255.0,AR415S,v2,GY1,online,2.9.1-23,NMS_B5,Tims Router
+Printer,11.132.31.32,255.255.255.0,AT-AR745,v2,561,online,2.9.2-13,NMS_C4,DeskJetOne
+AccessPoint,10.12.31.14,255.255.255.0,AR415S,v2,23,online,2.9.1-23,NMS_B5,FirstFloorAP

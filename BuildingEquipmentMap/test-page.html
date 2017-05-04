@@ -1,0 +1,361 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+	<title>Building Equipment Map</title>
+
+	<!-- Leaflet library-->
+	<link rel="stylesheet" href="./vendors/leaflet/leaflet.css" />
+	<script src="./vendors/leaflet/leaflet.js"></script>
+
+	<!-- Leaflet toolbar library -->
+	<script src="./vendors/leaflet-toolbar/leaflet.toolbar.js"></script>
+	<link rel="stylesheet" href="./vendors/leaflet-toolbar/leaflet.toolbar.css"/>
+	<!-- Leaflet draw-->
+	<script src="./vendors/leaflet-draw/leaflet.draw.js"></script>
+	<link rel="stylesheet" href="./vendors/leaflet-draw/leaflet.draw.css"/>
+	<!--Leaflet Sidebar-->
+	<link rel="stylesheet" href="./vendors/leaflet-sidebar-v2/leaflet-sidebar.css"/>
+	<script src="./vendors/leaflet-sidebar-v2/leaflet-sidebar.js"></script>
+
+	<!-- Handlebars-->
+	<script src="./vendors/handlebars-v4/handlebars-v4.0.5.js"></script>
+
+	<!-- Regular CSS -->
+	<link rel="stylesheet" type="text/css"  href="./resources/css/test.css">
+
+	<!-- Regular CSS -->
+	<link rel="stylesheet" type="text/css" media="print" href="./resources/css/print.css">
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+	<!-- Open Source font awesome graphics -->
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+	<style>
+		body {
+			padding: 0;
+			margin: 0;
+		}
+		html, body, #image-map {
+			height: 100%;
+			font: 10pt "Helvetica Neue", Arial, Helvetica, sans-serif;
+		}
+		.lorem {
+			font-style: italic;
+			color: #AAA;
+		}
+	</style>
+
+</head>
+
+
+<body>
+
+<div class="alert alert-warning alert-dismissible" role="alert" id="editAlert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong id="editMode">Edit Mode</strong>
+</div>
+
+<div class="alert alert-warning alert-dismissible" role="alert" id="viewAlert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	<strong id="viewMode">View Mode</strong>
+</div>
+
+<!-- Device Info Modal -->
+<div id="deviceInfoModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Device Info</h4>
+			</div>
+			<div class="modal-body">
+				<div class="deviceInfo">
+
+				</div>
+				<form>
+					<label for="addNotes">Add Notes:</label>
+					<textarea id="addNotes" class="form-control" rows="3"> </textarea>
+					<button id="notesBtn" type="button" class="btn btn-default">Add Notes</button>
+					<button id="removeBtn" type="button" class="btn btn-default" data-dismiss="modal">Remove Device</button>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<!-- Side bar-->
+<div id="sidebar" class="sidebar collapsed">
+	<!-- Nav tabs -->
+	<div class="sidebar-tabs">
+		<ul role="tablist">
+			<li><a href="#home" role="tab" id="homeTab"><i class="fa fa-bars"></i></a></li>
+			<li><a href="#building" role="tab" id="buildingTab"><i class="fa fa-building"></i></a></li>
+			<li><a href="#view" role="tab" id="viewTab"><i class="fa fa-eye"></i></a></li>
+			<li><a href="#edit" role="tab" id="editTab"><i class="fa fa-pencil"></i></a></li>
+			<li><a href="#settings" role="tab" id="settingsTab"><i class="fa fa-gear"></i></a></li>
+		</ul>
+	</div>
+
+	<!-- Tab panes -->
+	<div class="sidebar-content">
+		<div class="sidebar-pane" id="home">
+			<h1 class="sidebar-header">
+				Building Equipment Map
+				<span class="sidebar-close"><i class="fa fa-caret-left"></i></span>
+			</h1>
+
+			<h5>
+				Welcome to the Building Equipment Map System.
+			</h5>
+			<h5>
+				Use the options to the left to select a menu item.
+			</h5>
+
+		</div>
+
+
+		<div class="sidebar-pane" id="view">
+			<h1 class="sidebar-header">View Layout<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+
+			<br>
+			<br>
+
+			<div class="row"></div>
+			<div id="testing"></div>
+
+			<script id="buildingTemplate" type="text/x-handlebars-template">
+				{{#each buildings}}
+				{{>buildingList}}
+				{{/each}}
+			</script>
+
+			<script id="buildingList" type="text/x-handlebars-template">
+
+				<div class="panel panel-default" id="LayoutView">
+					<div class="panel-heading" id="buildingHeading">
+						<div class="row">
+							<div class="col-xs-5">
+								{{#createBuildingID name}} {{/createBuildingID}}
+							</div>
+							<div class="col-xs-7">
+
+								<h4>{{#compareStatus building_status}}  {{/compareStatus}}</h4>
+
+							</div>
+
+						</div>
+
+					</div>
+					{{#targetID name}} {{/targetID}}
+					<div class="panel-body">
+						{{#each floors}}
+						{{>floorList}}
+						{{/each}}
+
+					</div>
+				</div>
+		</div>
+		</script>
+
+
+		<script id="floorList" type="text/x-handlebars-template">
+
+			<div class="row">
+				<div class="col-xs-5">
+					{{#createFloorID layoutName name}} {{/createFloorID}}
+				</div>
+				<div class="col-xs-7">
+					<h5>{{#compareStatus status}} {{/compareStatus}} {{#buttonID layoutName blueprint}}  {{/buttonID}}</h5>
+				</div>
+				{{#targetFloorID layoutName}} {{/targetFloorID}}
+				<div class="panel-body">
+					{{#each devices}}
+					{{>deviceList}}
+					{{/each}}
+				</div>
+			</div>
+	</div>
+	</script>
+
+
+	<script id="deviceList" type="text/x-handlebars-template">
+		<div class="row">
+			<!--<div class="col-xs-1">
+				<p></p>
+			</div>-->
+			<div class="col-xs-5" id="floorDevices">
+				<p>{{#deviceLink name nickname}}{{/deviceLink}}</p>
+			</div>
+			<div class="col-xs-6">
+				<p>{{#compareStatus status}}  {{/compareStatus}}</p>
+			</div>
+		</div>
+	</script>
+
+</div>
+
+<div class="sidebar-pane" id="edit">
+	<h1 class="sidebar-header">Edit Layout<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+	<h4>
+		Load Building
+	</h4>
+
+	<form>
+		<div class="form-group">
+			<label for="openBuilding">Open Building:</label>
+			<select id="openBuilding">
+				<!--This is generated-->
+			</select>
+			<br>
+		</div>
+	</form>
+	<div id="editFloor">
+
+	</div>
+	<div id="currentFloor">
+
+	</div>
+
+	<div id="addDevices" style="display:none;">
+
+		<h4>
+			Add Devices
+		</h4>
+
+		<select id="selectedDevice">
+			<!--<option value="Router">Router</option>-->
+			<!--<option value="Switch">Switch</option>-->
+			<!--<option value="Computer">Computer</option>-->
+		</select> <br>
+		<input class="btn btn-default" id="add" type="button" value="Add to map" onclick="getSelectedDevice()"><br>
+
+
+		<!--
+        <form>
+            <div class="form-group">
+                <label for="layoutName">Save Layout Name:</label>
+                <input type="text" class="form-control" id="layoutName" placeholder="Layout">
+            </div>
+        </form>
+            -->
+		<br>
+		<input class="btn btn-default" id="sendData" type="button" value="Save Floor"><br>
+	</div>
+	<br>
+	<div id="confirmationFloorSave">
+
+	</div>
+</div>
+
+<div class="sidebar-pane" id="building">
+	<h1 class="sidebar-header">Building Menu<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+
+	<h4>Create Building</h4>
+	<div class="form-group">
+		<label for="buildingName">Building Name:</label>
+		<input type="text" class="form-control" id="buildingName" placeholder="Building Name">
+		<label for="floorNumber">Select Number of Floors:</label>
+		<input type="text" class="form-control" id="floorNumber" placeholder="Number">
+		<br>
+		<div id="floorInput">
+			<!--Floors Generated Dynamically-->
+		</div>
+	</div>
+	<div id="confirmationCreateBuilding">
+
+	</div>
+
+	<h4>
+		Upload New Blueprint
+	</h4>
+	<!--
+    <h5>Select From Default Blueprints</h5>
+    <select id ="changeBlueprint" class="changeBlueprint">
+
+
+    </select>
+    <br>
+    <input class="btn btn-default" id="selectBlueprint" type="button" value="Load Blueprint">
+    -->
+
+	<form>
+		<label for="blueprintUpload">Upload Blueprint</label>
+		<input type="file" id="blueprintUpload" accept="image/gif, image/jpeg, image/png">
+		<div class="form-group">
+			<label for="blueprintName">Save Blueprint Name:</label>
+			<input type="text" class="form-control" id="blueprintName" placeholder="Blueprint">
+		</div>
+		<input class="btn btn-default" id="sendBlueprint" type="button" value="Save Blueprint"><br>
+	</form>
+	<br>
+	<div id="confirmationUploadBlueprint"></div>
+
+	<br>
+
+	<!--
+        <input class="btn btn-default" id="changeBlueprintOne" type="button" value="Floor One"><br>
+        <input class="btn btn-default" id="changeBlueprintTwo" type="button" value="Floor Two"><br>
+        <input class="btn btn-default" id="changeBlueprintThree" type="button" value="Floor Three"><br>
+    -->
+	<!--
+    <h5>
+        Edit Devices
+    </h5>
+    <h5>
+        Save Layout
+    </h5>-->
+</div>
+
+
+<div class="sidebar-pane" id="settings">
+	<h1 class="sidebar-header">Layout Settings<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
+	<h4>
+		Print Map:
+		<input class="btn btn-default" id="printMap" type="button" disabled value="Print Current Map">
+	</h4>
+
+</div>
+</div>
+</div>
+
+
+<div id="image-map" class="sidebar-map print"> </div>
+<div id="lastImage"> </div>
+
+<a id="logo" target="_blank" href="http://www.alliedtelesis.com/"><img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1001;" src="./resources/images/alliedtelesis-logo.png" alt="Visit Allied Telesis"></a>
+
+
+</body>
+
+
+<!-- custom js inclusions-->
+<script src="./resources/js/testLeaflet.js"></script>
+
+<script src="./resources/js/refreshDevices.js"></script>
+
+<script src="./resources/js/deviceToolbar.js"></script>
+
+<script src="./resources/js/changeBlueprint.js"></script>
+
+<script src="./resources/js/loadDevices.js"></script>
+
+<script src="./resources/js/editLayout.js"></script>
+
+<script src="./resources/js/utilitiesToolbar.js"></script>
+
+
+
+</html>

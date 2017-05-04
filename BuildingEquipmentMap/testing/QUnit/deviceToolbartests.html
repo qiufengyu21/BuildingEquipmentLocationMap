@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Device Tool Bar Test</title>
+
+    <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.22.0.css">
+    <script src="//code.jquery.com/qunit/qunit-1.22.0.js"></script>
+
+    <link rel="stylesheet" href="../.././vendors/leaflet/leaflet.css" />
+    <script src="../.././vendors/leaflet/leaflet.js"></script>
+
+    <link rel="stylesheet" href="../.././vendors/leaflet-sidebar-v2/leaflet-sidebar.css"/>
+    <script src="../.././vendors/leaflet-sidebar-v2/leaflet-sidebar.js"></script>
+
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="qunit"></div>
+<div id="image-map">
+
+</div>
+
+<script src="../.././resources/js/testLeaflet.js"></script>
+
+<script src="../.././resources/js/loadMap.js"></script>
+
+<script src="../.././resources/js/deviceToolbar.js"></script>
+
+<script src="../../resources/js/changeBlueprint.js"></script>
+
+<script>
+    QUnit.test("testAddRouter", function( assert ) {
+        assert.equal(getItemsSize(),0);
+
+        addRouter();
+        assert.equal(getItemsSize(),1)
+    });
+</script>
+
+
+</body>
+</html>
+</html>

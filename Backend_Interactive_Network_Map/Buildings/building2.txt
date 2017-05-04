@@ -1,0 +1,1 @@
+{"name":"building2","building_status":"","numFloors":2,"floors":[{"name":"Floor 1","status":null,"numDevices":0,"blueprint":"uml","layoutName":"building2-Floor1","devices":[]},{"name":"Floor 2","status":null,"numDevices":0,"blueprint":"uml","layoutName":"building2-Floor2","devices":[]}]}
