@@ -1,4 +1,6 @@
-TEAM 10 Allied Telesis - Building Location Map
+##TEAM 10 Allied Telesis - Building Location Map
+###For more information, please check out the 2016spring-team10-Final-Report.docx
+
 
 File Structure
 
